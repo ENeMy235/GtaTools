@@ -14,36 +14,10 @@ A web-based tracker for managing Simeon's vehicle export requests in GTA V. Trac
 - 📱 **Responsive Design** - Works on desktop and mobile devices
 - ⚙️ **Easy Configuration** - Simple JSON-based vehicle configuration
 
-## Demo
-
-Visit the live demo: `https://yourusername.github.io/gtatools/`
-
-## Installation
-
-### Run Locally
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/gtatools.git
-   cd gtatools
-   ```
-
-2. Open `index.html` in your web browser
-   - No build process or dependencies required
-   - Works with any modern web browser
-
-### Deploy to GitHub Pages
-
-1. Fork or clone this repository to your GitHub account
-2. Go to repository **Settings** → **Pages**
-3. Under **Source**, select **Deploy from a branch**
-4. Select **main** branch and **/ (root)** folder
-5. Click **Save**
-6. Your tracker will be available at `https://yourusername.github.io/gtatools/`
 
 ## Usage
 
-### Starting a Test Session
+### Starting a Export Session
 
 1. **Mark Delivery** - Click to start the 24-hour countdown timer
 2. **Search for Vehicles** - Visit spawn locations to find requested vehicles
@@ -54,7 +28,7 @@ Visit the live demo: `https://yourusername.github.io/gtatools/`
 
 - **2-Star Wanted Level** - A vehicle that gives an instant 2-star wanted level when you enter it is confirmed to be on Simeon's current request list
 - **Spawn Groups** - Vehicles are organized by parking lot spawn groups. When you mark one vehicle as tested, all vehicles in the same groups are grayed out
-- **One Per Day** - You can only deliver one vehicle per 24-hour period in GTA V
+- **One Per Day** - You can only deliver one vehicle per 24-hour period in GTA Online
 
 ## Configuration
 
@@ -99,37 +73,6 @@ Edit `config.json` to customize the vehicle list:
 - **Vanilla JavaScript** - No frameworks or dependencies
 - **LocalStorage API** - Client-side data persistence
 
-## Project Structure
-
-```
-gtatools/
-├── index.html          # Main HTML file
-├── style.css           # Stylesheet
-├── script.js           # Application logic
-├── config.json         # Vehicle configuration
-├── images/             # Vehicle images
-│   └── README.md
-├── LICENSE             # License file
-└── README.md           # This file
-```
-
-## Browser Support
-
-- ✅ Chrome/Edge (recommended)
-- ✅ Firefox
-- ✅ Safari
-- ✅ Opera
-
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -145,4 +88,4 @@ This is a fan-made tool for Grand Theft Auto V. All trademarks and copyrights re
 
 ---
 
-**Happy Hunting! 🚗💨**
+**Happy Car Exporting! 🚗💨**
