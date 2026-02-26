@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simeon's Export Requests Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-controls">
+                <h1>Simeon's Export Requests Tracker</h1>
+                <div class="header-right">
+                    <div class="timer-display" id="timerDisplay">
+                        <span class="timer-label">Time:</span>
+                        <span class="timer-value" id="timerValue">--:--:--</span>
+                    </div>
+                    <div class="button-group">
+                        <button id="markDeliveryBtn" class="btn btn-primary">Mark Delivery</button>
+                        <button id="resetProgressBtn" class="btn btn-danger">Reset Progress</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Vehicle Grid -->
+        <main class="vehicle-grid" id="vehicleGrid">
+            <!-- Vehicle cards will be dynamically inserted here -->
+        </main>
+
+        <!-- Tips Modal -->
+        <div id="tipsModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Tips & Instructions</h2>
+                <div class="modal-body">
+                    <div id="tipsContent">
+                        <h3>📋 Mission Overview</h3>
+                        <p>Simeon sends you a text message with a list of <strong>5 vehicles</strong> to deliver to the
+                            docks. Once you successfully deliver a vehicle, there is a <strong>24 real-world hour
+                                cooldown</strong> before you can deliver another. Only one vehicle can be delivered per
+                            day.</p>
+
+                        <h3>🚗 Finding Vehicles</h3>
+                        <ul>
+                            <li><strong>Use this map</strong> — Shows the best parking lots and spawn locations</li>
+                            <li>Travel between marked locations to find vehicles from your list</li>
+                            <li>Mark tested vehicles to track your progress</li>
+                            <li>Focus on vehicles that belong to multiple spawn groups to maximize efficiency</li>
+                            <li>A vehicle that triggers an instant <strong>2-star wanted level</strong> upon entry is
+                                confirmed as part of Simeon’s current request list</li>
+                        </ul>
+
+                        <h3>🎯 Delivery Process</h3>
+                        <ul>
+                            <li>Enter a requested vehicle (2-star wanted level activates)</li>
+                            <li>Visit Los Santos Customs (highlighted location recommended)</li>
+                            <li>Repair and respray the vehicle (required before delivery)</li>
+                            <li>Deliver the vehicle to the docks "S" marker</li>
+                        </ul>
+
+                        <h3>💡 Pro Tips</h3>
+                        <ul>
+                            <li>Marking vehicles as "Tested" helps eliminate unnecessary re-checks</li>
+                            <li>Track your delivery time so you know when the next daily cooldown ends</li>
+                            <li>After cooldown expires, a new vehicle list becomes available</li>
+                        </ul>
+                    </div>
+                    <div class="modal-map">
+                        <img src="/images/map.png" alt="Map" id="mapImage" onerror="this.style.display='none'"
+                            style="cursor: pointer;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tooltip for hover information -->
+        <div id="tooltip" class="tooltip"></div>
+
+        <!-- Vehicle Detail Modal -->
+        <div id="vehicleModal" class="modal">
+            <div class="modal-content vehicle-detail-modal">
+                <span class="close" id="vehicleModalClose">&times;</span>
+                <div class="vehicle-detail-content">
+                    <div class="vehicle-detail-image">
+                        <img id="vehicleDetailImage" src="" alt="">
+                    </div>
+                    <div class="vehicle-detail-info">
+                        <h2 id="vehicleDetailName"></h2>
+                        <div class="vehicle-detail-groups" id="vehicleDetailGroups"></div>
+                        <p class="vehicle-detail-tooltip" id="vehicleDetailTooltip"></p>
+                        <div class="vehicle-detail-buttons">
+                            <button id="vehicleDetailTestedBtn" class="btn btn-success">Tested</button>
+                            <a id="vehicleDetailWikiBtn" class="btn btn-info" target="_blank" style="display:none;">🔗
+                                Wiki</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Enlargement Modal -->
+        <div id="mapModal" class="modal">
+            <div class="modal-content map-modal-content">
+                <span class="close" id="mapModalClose">&times;</span>
+                <img id="enlargedMapImage" src="/images/map.png" alt="Map" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
