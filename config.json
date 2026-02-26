@@ -1,11 +1,20 @@
 {
   "vehicles": [
+      {
+      "id": "tips-tile",
+      "name": "📍 VIEW TIPS & MAP",
+      "image": "images/map.png",
+      "groups": [],
+      "brand": "",
+      "wiki": "",
+      "isTipsTile": true
+    },
     {
       "id": "vehicle-001",
       "name": "Banshee",
       "image": "images/19_Banshee.png",
       "groups": [2, 4, 6],
-      "tooltip": "Bravado Banshee",
+      "brand": "Bravado",
       "wiki": "https://gta.fandom.com/wiki/Banshee_(HD_Universe)"
     },
     {
@@ -13,7 +22,7 @@
       "name": "Coquette",
       "image": "images/18_Coquette.png",
       "groups": [2, 4, 5],
-      "tooltip": "Invetero Coquette",
+      "brand": "Invetero",
       "wiki": "https://gta.fandom.com/wiki/Coquette"
     },
     {
@@ -21,7 +30,7 @@
       "name": "Infernus",
       "image": "images/17_Infernus.png",
       "groups": [2, 4, 5],
-      "tooltip": "Pegassi Infernus",
+      "brand": "Pegassi",
       "wiki": "https://gta.fandom.com/wiki/Infernus"
     },
     {
@@ -29,7 +38,7 @@
       "name": "Sentinel",
       "image": "images/16_Sentinel.png",
       "groups": [2, 4, 7],
-      "tooltip": "Übermacht Sentinel",
+      "brand": "Übermacht",
       "wiki": "https://gta.fandom.com/wiki/Sentinel"
     },
     {
@@ -37,7 +46,7 @@
       "name": "Bullet",
       "image": "images/15_Bullet.png",
       "groups": [1, 5],
-      "tooltip": "Vapid Bullet",
+      "brand": "Vapid",
       "wiki": "https://gta.fandom.com/wiki/Bullet"
     },
     {
@@ -45,7 +54,7 @@
       "name": "Carbonizzare",
       "image": "images/14_Carbonizzare.png",
       "groups": [1, 8],
-      "tooltip": "Grotti Carbonizzare",
+      "brand": "Grotti",
       "wiki": "https://gta.fandom.com/wiki/Carbonizzare"
     },
     {
@@ -53,7 +62,7 @@
       "name": "Comet",
       "image": "images/13_Comet.png",
       "groups": [1, 6],
-      "tooltip": "Pfister Comet",
+      "brand": "Pfister",
       "wiki": "https://gta.fandom.com/wiki/Comet"
     },
     {
@@ -61,7 +70,7 @@
       "name": "Dubsta",
       "image": "images/12_Dubsta.png",
       "groups": [2, 4],
-      "tooltip": "Benefactor Dubsta",
+      "brand": "Benefactor",
       "wiki": "https://gta.fandom.com/wiki/Dubsta"
     },
     {
@@ -69,7 +78,7 @@
       "name": "Exemplar",
       "image": "images/11_Exemplar.png",
       "groups": [6, 8],
-      "tooltip": "Dewbauchee Exemplar",
+      "brand": "Dewbauchee",
       "wiki": "https://gta.fandom.com/wiki/Exemplar"
     },
     {
@@ -77,7 +86,7 @@
       "name": "F620",
       "image": "images/10_F620.png",
       "groups": [1, 3],
-      "tooltip": "Ocelot F620",
+      "brand": "Ocelot",
       "wiki": "https://gta.fandom.com/wiki/F620"
     },
     {
@@ -85,7 +94,7 @@
       "name": "Felon GT",
       "image": "images/09_Felon-GT.png",
       "groups": [5, 8],
-      "tooltip": "Lampadati Felon GT",
+      "brand": "Lampadati",
       "wiki": "https://gta.fandom.com/wiki/Felon"
     },
     {
@@ -93,7 +102,7 @@
       "name": "Feltzer",
       "image": "images/08_Feltzer.png",
       "groups": [3, 7],
-      "tooltip": "Benefactor Feltzer",
+      "brand": "Benefactor",
       "wiki": "https://gta.fandom.com/wiki/Feltzer"
     },
     {
@@ -101,7 +110,7 @@
       "name": "Jackal",
       "image": "images/07_Jackal.png",
       "groups": [3, 7],
-      "tooltip": "Ocelot Jackal",
+      "brand": "Ocelot",
       "wiki": "https://gta.fandom.com/wiki/Jackal"
     },
     {
@@ -109,7 +118,7 @@
       "name": "Rocoto",
       "image": "images/06_Rocoto.png",
       "groups": [3, 8],
-      "tooltip": "Obey Rocoto",
+      "brand": "Obey",
       "wiki": "https://gta.fandom.com/wiki/Rocoto"
     },
     {
@@ -117,7 +126,7 @@
       "name": "Schafter",
       "image": "images/05_Schafter.png",
       "groups": [1, 8],
-      "tooltip": "Benefactor Schafter",
+      "brand": "Benefactor",
       "wiki": "https://gta.fandom.com/wiki/Schafter"
     },
     {
@@ -125,7 +134,7 @@
       "name": "Super Diamond",
       "image": "images/04_Super-Diamond.png",
       "groups": [3, 7],
-      "tooltip": "Enus Super Diamond",
+      "brand": "Enus",
       "wiki": "https://gta.fandom.com/wiki/Super_Diamond"
     },
     {
@@ -133,7 +142,7 @@
       "name": "Serrano",
       "image": "images/03_Serrano.png",
       "groups": [5],
-      "tooltip": "Benefactor Serrano",
+      "brand": "Benefactor",
       "wiki": "https://gta.fandom.com/wiki/Serrano"
     },
     {
@@ -141,7 +150,7 @@
       "name": "Schwartzer",
       "image": "images/02_Schwartzer.png",
       "groups": [7],
-      "tooltip": "Benefactor Schwartzer",
+      "brand": "Benefactor",
       "wiki": "https://gta.fandom.com/wiki/Schafter_(second_generation)"
     },
     {
@@ -149,7 +158,7 @@
       "name": "Surano",
       "image": "images/01_Surano.png",
       "groups": [6],
-      "tooltip": "Benefactor Surano",
+      "brand": "Benefactor",
       "wiki": "https://gta.fandom.com/wiki/Surano"
     },
     {
@@ -157,17 +166,9 @@
       "name": "Zion",
       "image": "images/00_Zion.png",
       "groups": [6],
-      "tooltip": "Übermacht Zion",
+      "brand": "Übermacht",
       "wiki": "https://gta.fandom.com/wiki/Zion"
-    },
-    {
-      "id": "tips-tile",
-      "name": "📍 VIEW TIPS & MAP",
-      "image": "images/map.png",
-      "groups": [],
-      "tooltip": "Click to view testing tips and location map",
-      "wiki": "",
-      "isTipsTile": true
     }
+
   ]
 }

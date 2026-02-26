@@ -103,7 +103,7 @@ body {
 
 .btn {
     padding: 8px 16px;
-    font-size: 0.9em;
+    font-size: 1em;
     font-weight: 600;
     border: none;
     border-radius: 8px;
@@ -151,9 +151,9 @@ body {
 .btn-tested {
     position: absolute;
     top: 10px;
-    right: 50px;
+    right: 10px;
     padding: 6px 12px;
-    font-size: 0.85em;
+    font-size: 1em;
     background: #28a745;
     color: white;
     border: none;
@@ -181,7 +181,7 @@ body {
     top: 10px;
     right: 10px;
     padding: 6px 10px;
-    font-size: 0.85em;
+    font-size: 1em;
     background: #17a2b8;
     color: white;
     border: none;
@@ -208,7 +208,7 @@ body {
 /* Vehicle Grid - Adaptive Layout */
 .vehicle-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 12px;
     padding: 10px;
 }
@@ -345,6 +345,11 @@ body {
     color: #e0e0e0;
 }
 
+.vehicle-brand {
+    color: #888;
+    font-weight: normal;
+}
+
 .vehicle-groups {
     display: flex;
     flex-wrap: wrap;
@@ -355,7 +360,7 @@ body {
     color: white;
     padding: 2px 6px;
     border-radius: 8px;
-    font-size: 0.65em;
+    font-size: 1em;
     font-weight: 600;
 }
 
@@ -512,13 +517,13 @@ body {
     top: 20px;
     font-size: 28px;
     font-weight: bold;
-    color: #888;
+    color: #ffffff;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .close:hover {
-    color: #e0e0e0;
+    color: #667eea;
 }
 
 .modal-content h2 {
@@ -619,6 +624,8 @@ body {
     border-radius: 8px;
     border: 1px solid #3a3a3a;
     transition: transform 0.2s ease;
+    cursor: pointer;
+    touch-action: manipulation;
 }
 
 .modal-map img:hover {
@@ -626,8 +633,13 @@ body {
     border-color: #4a4a4a;
 }
 
+.modal-map img:active {
+    transform: scale(0.98);
+}
+
 /* Map Enlargement Modal */
 .map-modal-content {
+    width: auto;
     max-width: 95vw;
     max-height: 95vh;
     padding: 20px;
@@ -639,6 +651,8 @@ body {
 }
 
 .map-modal-content img {
+    width: auto;
+    height: auto;
     max-width: 100%;
     max-height: calc(95vh - 80px);
     object-fit: contain;
@@ -664,11 +678,51 @@ body {
     max-width: 800px;
     padding: 0;
     overflow: hidden;
+    position: relative;
 }
 
 .vehicle-detail-content {
     display: flex;
     flex-direction: column;
+}
+
+/* Vehicle Navigation Arrows */
+.vehicle-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 3em;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.vehicle-nav-arrow:hover {
+    background: rgba(102, 126, 234, 0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.vehicle-nav-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.vehicle-nav-prev {
+    left: 15px;
+}
+
+.vehicle-nav-next {
+    right: 15px;
 }
 
 .vehicle-detail-image {
@@ -695,6 +749,11 @@ body {
     margin-bottom: 15px;
     color: #e0e0e0;
     font-size: 2em;
+}
+
+.vehicle-detail-info h2 .vehicle-brand {
+    color: #888;
+    font-weight: normal;
 }
 
 .vehicle-detail-groups {
@@ -826,13 +885,22 @@ body {
     }
 
     .vehicle-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-template-columns: 1fr;
         gap: 10px;
     }
 
-    .btn {
-        padding: 10px 16px;
-        font-size: 0.9em;
+    .vehicle-nav-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 2.5em;
+    }
+
+    .vehicle-nav-prev {
+        left: 5px;
+    }
+
+    .vehicle-nav-next {
+        right: 5px;
     }
 
     .vehicle-detail-modal {

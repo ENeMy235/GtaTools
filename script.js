@@ -24,6 +24,14 @@ const vehicleDetailWikiBtn = document.getElementById('vehicleDetailWikiBtn');
 const mapImage = document.getElementById('mapImage');
 const mapModal = document.getElementById('mapModal');
 const mapModalClose = document.getElementById('mapModalClose');
+const vehicleNavPrev = document.getElementById('vehicleNavPrev');
+const vehicleNavNext = document.getElementById('vehicleNavNext');
+
+// Swipe detection state
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
 
 // Initialize Application
 async function init() {
@@ -100,21 +108,15 @@ function createVehicleCard(vehicle) {
         // Directly tested vehicles are always fully grayed
         testedClass = 'fully-tested';
     } else if (isTested) {
-        // Tested through groups - check how many groups remain untested
+        // Tested through groups - check if ALL groups are tested
         const vehicleGroups = vehicle.groups;
-        const testedCount = vehicleGroups.filter(g => testedGroups.has(g)).length;
-        const untestedCount = vehicleGroups.length - testedCount;
+        const allGroupsTested = vehicleGroups.every(g => testedGroups.has(g));
 
-        if (untestedCount === 0) {
+        if (allGroupsTested) {
             // All groups are tested - fully grayed
             testedClass = 'fully-tested';
-        } else if (untestedCount === 1) {
-            // Only one group left untested - no grey out (still testable)
-            testedClass = '';
-        } else {
-            // Multiple groups still untested - partially grayed
-            testedClass = 'partial-tested';
         }
+        // Otherwise no gray out - vehicle is still testable
     }
 
     const card = document.createElement('div');
@@ -147,24 +149,12 @@ function createVehicleCard(vehicle) {
     // Tested button (always visible for user to toggle)
     const testedBtn = document.createElement('button');
     testedBtn.className = `btn-tested ${isDirectlyTested ? 'tested' : ''}`;
-    testedBtn.textContent = isDirectlyTested ? 'Uncheck' : 'Tested';
+    testedBtn.textContent = isDirectlyTested ? 'Uncheck' : 'Check';
     testedBtn.onclick = (e) => {
         e.stopPropagation();
         toggleVehicleTested(vehicle);
     };
     imageContainer.appendChild(testedBtn);
-
-    // Wiki link button (if wiki URL exists)
-    if (vehicle.wiki) {
-        const wikiBtn = document.createElement('a');
-        wikiBtn.className = 'btn-wiki';
-        wikiBtn.href = vehicle.wiki;
-        wikiBtn.target = '_blank';
-        wikiBtn.onclick = (e) => {
-            e.stopPropagation();
-        };
-        imageContainer.appendChild(wikiBtn);
-    }
 
     card.appendChild(imageContainer);
 
@@ -174,7 +164,19 @@ function createVehicleCard(vehicle) {
 
     const name = document.createElement('div');
     name.className = 'vehicle-name';
-    name.textContent = vehicle.name;
+    
+    // Add brand if available
+    if (vehicle.brand) {
+        const brandSpan = document.createElement('span');
+        brandSpan.className = 'vehicle-brand';
+        brandSpan.textContent = vehicle.brand + ' ';
+        name.appendChild(brandSpan);
+    }
+    
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = vehicle.name;
+    name.appendChild(nameSpan);
+    
     info.appendChild(name);
 
     // Group badges
@@ -191,13 +193,6 @@ function createVehicleCard(vehicle) {
 
     info.appendChild(groupsContainer);
     card.appendChild(info);
-
-    // Tooltip on hover
-    if (vehicle.tooltip) {
-        card.addEventListener('mouseenter', (e) => showTooltip(e, vehicle.tooltip));
-        card.addEventListener('mousemove', (e) => updateTooltipPosition(e));
-        card.addEventListener('mouseleave', hideTooltip);
-    }
 
     return card;
 }
@@ -234,13 +229,6 @@ function createTipsTileCard(vehicle) {
     info.appendChild(name);
 
     card.appendChild(info);
-
-    // Tooltip on hover
-    if (vehicle.tooltip) {
-        card.addEventListener('mouseenter', (e) => showTooltip(e, vehicle.tooltip));
-        card.addEventListener('mousemove', (e) => updateTooltipPosition(e));
-        card.addEventListener('mouseleave', hideTooltip);
-    }
 
     // Click handler
     card.onclick = () => showTipsModal();
@@ -373,22 +361,7 @@ function resetProgress() {
     }
 }
 
-// Tooltip Functions
-function showTooltip(event, text) {
-    tooltip.textContent = text;
-    tooltip.classList.add('visible');
-    updateTooltipPosition(event);
-}
-
-function updateTooltipPosition(event) {
-    const offset = 15;
-    tooltip.style.left = (event.clientX + offset) + 'px';
-    tooltip.style.top = (event.clientY + offset) + 'px';
-}
-
-function hideTooltip() {
-    tooltip.classList.remove('visible');
-}
+// Tooltip Functions (removed - no longer used)
 
 // Modal Functions
 function showTipsModal() {
@@ -420,6 +393,72 @@ function hideVehicleDetail() {
     currentVehicle = null;
 }
 
+// Get list of non-tips vehicles
+function getNonTipsVehicles() {
+    return vehicles.filter(v => !v.isTipsTile);
+}
+
+// Navigate to next vehicle
+function showNextVehicle() {
+    if (!currentVehicle) return;
+    
+    const nonTipsVehicles = getNonTipsVehicles();
+    const currentIndex = nonTipsVehicles.findIndex(v => v.id === currentVehicle.id);
+    
+    if (currentIndex === -1) return;
+    
+    const nextIndex = (currentIndex + 1) % nonTipsVehicles.length;
+    const nextVehicle = nonTipsVehicles[nextIndex];
+    
+    showVehicleDetail(nextVehicle);
+}
+
+// Navigate to previous vehicle
+function showPreviousVehicle() {
+    if (!currentVehicle) return;
+    
+    const nonTipsVehicles = getNonTipsVehicles();
+    const currentIndex = nonTipsVehicles.findIndex(v => v.id === currentVehicle.id);
+    
+    if (currentIndex === -1) return;
+    
+    const prevIndex = (currentIndex - 1 + nonTipsVehicles.length) % nonTipsVehicles.length;
+    const prevVehicle = nonTipsVehicles[prevIndex];
+    
+    showVehicleDetail(prevVehicle);
+}
+
+// Handle swipe gestures
+function handleTouchStart(e) {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}
+
+function handleTouchEnd(e) {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50; // minimum distance for swipe
+    const swipeRatioThreshold = 2; // ratio of horizontal to vertical movement
+    
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = Math.abs(touchEndY - touchStartY);
+    
+    // Check if horizontal swipe is dominant
+    if (Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > deltaY * swipeRatioThreshold) {
+        if (deltaX > 0) {
+            // Swipe right - show previous
+            showPreviousVehicle();
+        } else {
+            // Swipe left - show next
+            showNextVehicle();
+        }
+    }
+}
+
 function updateVehicleDetailModal(vehicle) {
     const isDirectlyTested = testedVehicles.includes(vehicle.id);
     const testedGroups = getTestedGroups();
@@ -428,8 +467,17 @@ function updateVehicleDetailModal(vehicle) {
     vehicleDetailImage.src = vehicle.image;
     vehicleDetailImage.alt = vehicle.name;
 
-    // Update name
-    vehicleDetailName.textContent = vehicle.name;
+    // Update name with brand
+    vehicleDetailName.innerHTML = '';
+    if (vehicle.brand) {
+        const brandSpan = document.createElement('span');
+        brandSpan.className = 'vehicle-brand';
+        brandSpan.textContent = vehicle.brand + ' ';
+        vehicleDetailName.appendChild(brandSpan);
+    }
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = vehicle.name;
+    vehicleDetailName.appendChild(nameSpan);
 
     // Update groups with grayed out styling for tested groups
     vehicleDetailGroups.innerHTML = '';
@@ -441,12 +489,11 @@ function updateVehicleDetailModal(vehicle) {
         vehicleDetailGroups.appendChild(badge);
     });
 
-    // Update tooltip/description
-    vehicleDetailTooltip.textContent = vehicle.tooltip || '';
-    vehicleDetailTooltip.style.display = vehicle.tooltip ? 'block' : 'none';
+    // Hide tooltip element (no longer used)
+    vehicleDetailTooltip.style.display = 'none';
 
     // Update tested button
-    vehicleDetailTestedBtn.textContent = isDirectlyTested ? 'Uncheck' : 'Tested';
+    vehicleDetailTestedBtn.textContent = isDirectlyTested ? 'Uncheck' : 'Check';
     vehicleDetailTestedBtn.className = `btn btn-success ${isDirectlyTested ? 'tested' : ''}`;
     vehicleDetailTestedBtn.onclick = () => {
         toggleVehicleTested(vehicle);
@@ -495,12 +542,41 @@ function setupEventListeners() {
         }
     });
 
+    // Vehicle navigation arrows
+    vehicleNavPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showPreviousVehicle();
+    });
+
+    vehicleNavNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showNextVehicle();
+    });
+
+    // Swipe detection for vehicle modal
+    const vehicleDetailContent = document.querySelector('.vehicle-detail-content');
+    if (vehicleDetailContent) {
+        vehicleDetailContent.addEventListener('touchstart', handleTouchStart, { passive: true });
+        vehicleDetailContent.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
+
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             hideTipsModal();
             hideVehicleDetail();
             hideMapModal();
+        }
+        
+        // Arrow keys for vehicle navigation when modal is open
+        if (vehicleModal.classList.contains('show')) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                showPreviousVehicle();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                showNextVehicle();
+            }
         }
     });
 }
