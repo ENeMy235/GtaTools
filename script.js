@@ -5,6 +5,7 @@ let testedVehicles = [];
 let deliveryTime = null;
 let timerInterval = null;
 let currentVehicle = null;
+let timerExpired = false; // Track if timer has expired to avoid duplicate resets
 
 // DOM Elements
 const vehicleGrid = document.getElementById('vehicleGrid');
@@ -164,7 +165,7 @@ function createVehicleCard(vehicle) {
 
     const name = document.createElement('div');
     name.className = 'vehicle-name';
-    
+
     // Add brand if available
     if (vehicle.brand) {
         const brandSpan = document.createElement('span');
@@ -172,11 +173,11 @@ function createVehicleCard(vehicle) {
         brandSpan.textContent = vehicle.brand + ' ';
         name.appendChild(brandSpan);
     }
-    
+
     const nameSpan = document.createElement('span');
     nameSpan.textContent = vehicle.name;
     name.appendChild(nameSpan);
-    
+
     info.appendChild(name);
 
     // Group badges
@@ -312,6 +313,7 @@ function updateTimerDisplay() {
     if (!deliveryTime) {
         timerValue.textContent = '--:--:--';
         timerValue.className = 'timer-value';
+        timerExpired = false; // Reset flag when no delivery time
         return;
     }
 
@@ -322,6 +324,12 @@ function updateTimerDisplay() {
     if (remaining <= 0) {
         timerValue.textContent = '00:00:00';
         timerValue.className = 'timer-value expired';
+
+        // Auto-reset progress and show notification (only once)
+        if (!timerExpired) {
+            timerExpired = true;
+            autoResetProgress();
+        }
         return;
     }
 
@@ -346,9 +354,73 @@ function pad(num) {
 
 function markDelivery() {
     deliveryTime = Date.now();
+    timerExpired = false; // Reset the expired flag for new timer
     saveStateToLocalStorage();
     updateTimerDisplay();
 }
+
+function autoResetProgress() {
+    // Reset all progress
+    testedVehicles = [];
+    deliveryTime = null;
+    localStorage.removeItem('vehicleTestingState');
+    renderVehicles();
+    updateTimerDisplay();
+
+    // Show notification
+    showNotification('Timer expired! Progress has been reset. You can begin your next search.');
+
+    // Request browser notification permission if supported
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Simeon\'s Export Requests', {
+            body: 'Timer expired! You can begin your next search.',
+            icon: 'favicon.svg'
+        });
+    } else if ('Notification' in window && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                new Notification('Simeon\'s Export Requests', {
+                    body: 'Timer expired! You can begin your next search.',
+                    icon: 'favicon.svg'
+                });
+            }
+        });
+    }
+}
+
+function showNotification(message) {
+    // Create a custom notification element
+    const notification = document.createElement('div');
+    notification.className = 'notification-toast';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    // Show notification with animation
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+
+    // Hide and remove notification after 5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 5000);
+}
+
+// Testing function - Set timer to 20 seconds remaining
+function testTimer20s() {
+    const twentySecondsBeforeExpiry = Date.now() - (24 * 60 * 60 * 1000) + (20 * 1000);
+    deliveryTime = twentySecondsBeforeExpiry;
+    timerExpired = false;
+    saveStateToLocalStorage();
+    updateTimerDisplay();
+    console.log('Timer set to 20 seconds remaining for testing');
+}
+
+// Make testTimer20s available globally for console access
+window.testTimer20s = testTimer20s;
 
 function resetProgress() {
     const confirmed = confirm('Are you sure you want to reset all progress? This cannot be undone.');
@@ -401,30 +473,30 @@ function getNonTipsVehicles() {
 // Navigate to next vehicle
 function showNextVehicle() {
     if (!currentVehicle) return;
-    
+
     const nonTipsVehicles = getNonTipsVehicles();
     const currentIndex = nonTipsVehicles.findIndex(v => v.id === currentVehicle.id);
-    
+
     if (currentIndex === -1) return;
-    
+
     const nextIndex = (currentIndex + 1) % nonTipsVehicles.length;
     const nextVehicle = nonTipsVehicles[nextIndex];
-    
+
     showVehicleDetail(nextVehicle);
 }
 
 // Navigate to previous vehicle
 function showPreviousVehicle() {
     if (!currentVehicle) return;
-    
+
     const nonTipsVehicles = getNonTipsVehicles();
     const currentIndex = nonTipsVehicles.findIndex(v => v.id === currentVehicle.id);
-    
+
     if (currentIndex === -1) return;
-    
+
     const prevIndex = (currentIndex - 1 + nonTipsVehicles.length) % nonTipsVehicles.length;
     const prevVehicle = nonTipsVehicles[prevIndex];
-    
+
     showVehicleDetail(prevVehicle);
 }
 
@@ -443,10 +515,10 @@ function handleTouchEnd(e) {
 function handleSwipe() {
     const swipeThreshold = 50; // minimum distance for swipe
     const swipeRatioThreshold = 2; // ratio of horizontal to vertical movement
-    
+
     const deltaX = touchEndX - touchStartX;
     const deltaY = Math.abs(touchEndY - touchStartY);
-    
+
     // Check if horizontal swipe is dominant
     if (Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > deltaY * swipeRatioThreshold) {
         if (deltaX > 0) {
@@ -567,7 +639,14 @@ function setupEventListeners() {
             hideVehicleDetail();
             hideMapModal();
         }
-        
+
+        // Testing shortcut: Ctrl+Shift+T to set timer to 20s remaining
+        if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+            e.preventDefault();
+            testTimer20s();
+            showNotification('Testing mode: Timer set to 20 seconds remaining');
+        }
+
         // Arrow keys for vehicle navigation when modal is open
         if (vehicleModal.classList.contains('show')) {
             if (e.key === 'ArrowLeft') {

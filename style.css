@@ -939,3 +939,39 @@ body {
         gap: 15px;
     }
 }
+
+/* Notification Toast */
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    font-size: 1em;
+    font-weight: 500;
+    z-index: 10000;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.notification-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+    .notification-toast {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        font-size: 0.9em;
+        padding: 14px 20px;
+    }
+}
