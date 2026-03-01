@@ -112,6 +112,11 @@ body {
     white-space: nowrap;
 }
 
+.btn-compact {
+    padding: 6px 12px;
+    font-size: 0.9em;
+}
+
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -657,6 +662,67 @@ body {
     max-height: calc(95vh - 80px);
     object-fit: contain;
     border-radius: 8px;
+}
+
+/* Printable Downloads Modal */
+.printable-modal-content {
+    max-width: 520px;
+}
+
+.printable-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.printable-actions .btn {
+    text-decoration: none;
+}
+
+.printable-previews {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.printable-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.printable-preview-link {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #3a3a3a;
+}
+
+.printable-preview-link img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+.printable-preview-link:hover img {
+    transform: scale(1.02);
+}
+
+.printable-download-btn {
+    text-decoration: none;
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 1.05em;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .printable-previews {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Responsive map modal for mobile */

@@ -10,9 +10,12 @@ let timerExpired = false; // Track if timer has expired to avoid duplicate reset
 // DOM Elements
 const vehicleGrid = document.getElementById('vehicleGrid');
 const timerValue = document.getElementById('timerValue');
+const printableBtn = document.getElementById('printableBtn');
 const markDeliveryBtn = document.getElementById('markDeliveryBtn');
 const resetProgressBtn = document.getElementById('resetProgressBtn');
 const tipsModal = document.getElementById('tipsModal');
+const printableModal = document.getElementById('printableModal');
+const printableModalClose = document.getElementById('printableModalClose');
 const tooltip = document.getElementById('tooltip');
 const vehicleModal = document.getElementById('vehicleModal');
 const vehicleModalClose = document.getElementById('vehicleModalClose');
@@ -444,6 +447,15 @@ function hideTipsModal() {
     tipsModal.classList.remove('show');
 }
 
+// Printable Modal Functions
+function showPrintableModal() {
+    printableModal.classList.add('show');
+}
+
+function hidePrintableModal() {
+    printableModal.classList.remove('show');
+}
+
 // Map Modal Functions
 function showMapModal() {
     mapModal.classList.add('show');
@@ -582,6 +594,7 @@ function updateVehicleDetailModal(vehicle) {
 
 // Event Listeners
 function setupEventListeners() {
+    printableBtn.addEventListener('click', showPrintableModal);
     markDeliveryBtn.addEventListener('click', markDelivery);
     resetProgressBtn.addEventListener('click', resetProgress);
 
@@ -592,6 +605,15 @@ function setupEventListeners() {
     tipsModal.addEventListener('click', (e) => {
         if (e.target === tipsModal) {
             hideTipsModal();
+        }
+    });
+
+    // Printable modal close handlers
+    printableModalClose.addEventListener('click', hidePrintableModal);
+
+    printableModal.addEventListener('click', (e) => {
+        if (e.target === printableModal) {
+            hidePrintableModal();
         }
     });
 
@@ -636,6 +658,7 @@ function setupEventListeners() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             hideTipsModal();
+            hidePrintableModal();
             hideVehicleDetail();
             hideMapModal();
         }

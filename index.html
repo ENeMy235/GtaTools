@@ -23,6 +23,7 @@
                     <div class="button-group">
                         <button id="markDeliveryBtn" class="btn btn-primary">Mark Delivery</button>
                         <button id="resetProgressBtn" class="btn btn-danger">Reset Progress</button>
+                        <button id="printableBtn" class="btn btn-info btn-compact">Printable Version</button>
                     </div>
                 </div>
             </div>
@@ -111,6 +112,29 @@
             <div class="modal-content map-modal-content">
                 <span class="close" id="mapModalClose">&times;</span>
                 <img id="enlargedMapImage" src="images/map.png" alt="Map" style="width: 100%; height: auto;">
+            </div>
+        </div>
+
+        <!-- Printable Downloads Modal -->
+        <div id="printableModal" class="modal">
+            <div class="modal-content printable-modal-content">
+                <span class="close" id="printableModalClose">&times;</span>
+                <h2>Printable Full Car List</h2>
+                <p>Preview low-resolution versions below. Click an image to open the full-resolution version:</p>
+                <div class="printable-previews">
+                    <div class="printable-item">
+                        <a href="images/Simeons-Light.jpg" target="_blank" rel="noopener" class="printable-preview-link">
+                            <img src="images/Simeons-Light_low.jpg" alt="Simeons Light low resolution preview">
+                        </a>
+                        <a href="images/Simeons-Light.jpg" class="btn btn-info printable-download-btn" target="_blank" rel="noopener" download>Download light</a>
+                    </div>
+                    <div class="printable-item">
+                        <a href="images/Simeons-Dark.jpg" target="_blank" rel="noopener" class="printable-preview-link">
+                            <img src="images/Simeons-Dark_low.jpg" alt="Simeons Dark low resolution preview">
+                        </a>
+                        <a href="images/Simeons-Dark.jpg" class="btn btn-info printable-download-btn" target="_blank" rel="noopener" download>Download dark</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
